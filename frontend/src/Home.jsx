@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef  } from "react";
 import axios from "axios";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
@@ -9,6 +9,7 @@ const Home = () => {
   const [category, setCategory] = useState("travel");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const fileInputRef = useRef(null);
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -28,18 +29,6 @@ const Home = () => {
     };
     fetchBlogs();
   }, []);
-  // const deleteBlog = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:5000/api/blogs/${id}`);
-  //     setBlogs(blogs.filter((blog) => blog._id !== id)); // Remove the deleted blog from state
-  //     setToastMessage("Blog deleted successfully!"); // Set success message
-  //     setShowToast(true); // Show the toast
-  //   } catch (err) {
-  //     console.error("Error deleting blog", err);
-  //     setToastMessage("Error deleting blog"); // Set error message
-  //     setShowToast(true); // Show the toast
-  //   }
-  // };
 
   const deleteBlog = async (id) => {
     try {
@@ -57,7 +46,6 @@ const Home = () => {
     }
   };
 
-  // Filter blogs by the selected category
   const filteredBlogs = blogs.filter((blog) => blog.blogtype === category);
   return (
     <div>
@@ -123,7 +111,7 @@ const Home = () => {
                                 <div className="blog-card">
                                   <div className="blog-card-img-wrap">
                                     <a href={`blog/${blog._id}`}>
-                                      <img src={`http://localhost:5000/${blog.blogimage}`} alt={blog.title} />
+                                      <img src={`http://localhost:5000/${blog.blogimage}`} alt={blog.title}   ref={fileInputRef}/>
                                     </a>
                                     <a href={`category/${blog.blogtype}`}>
                                       <span>{blog.blogtype}</span>
